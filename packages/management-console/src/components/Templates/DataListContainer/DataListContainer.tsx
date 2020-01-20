@@ -5,17 +5,23 @@ import {
   Card,
   Grid,
   GridItem,
-  PageSection
+  PageSection,
+  Title,
+  Button
 } from '@patternfly/react-core';
 import gql from 'graphql-tag';
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DataListTitleComponent from '../../Molecules/DataListTitleComponent/DataListTitleComponent';
 import DataToolbarComponent from '../../Molecules/DataToolbarComponent/DataToolbarComponent';
 import './DataList.css';
 import DataListComponent from '../../Organisms/DataListComponent/DataListComponent';
 import EmptyStateComponent from '../../Atoms/EmptyStateComponent/EmptyStateComponent';
+import DataTable from '../../Molecules/DataTableComponent/DataTable';
+import { EllipsisVIcon } from '@patternfly/react-icons';
+import { createParentData } from '../../Molecules/DataTableComponent/Utils/helper';
+import { useGetProcessInstancesLazyQuery } from 'packages/management-console/src/graphql/types';
 
 const DataListContainer: React.FC<{}> = () => {
   const [initData, setInitData] = useState<any>([]);
@@ -24,56 +30,27 @@ const DataListContainer: React.FC<{}> = () => {
   const [isError, setIsError] = useState(false);
   const [isStatusSelected, setIsStatusSelected] = useState(true);
   const [filters, setFilters] = useState(checkedArray);
-  const client = useApolloClient();
-
-  /* tslint:disable:no-string-literal */
-  const GET_INSTANCES = gql`
-    query getInstances($state: [ProcessInstanceState!]) {
-      ProcessInstances(
-        where: {
-          parentProcessInstanceId: { isNull: true }
-          state: { in: $state }
-        }
-      ) {
-        id
-        processId
-        processName
-        parentProcessInstanceId
-        roles
-        state
-        start
-        lastUpdate
-        addons
-        endpoint
-        error {
-          nodeDefinitionId
-          message
-        }
-      }
-    }
-  `;
+  const [rows, setRows] = useState([]);
+  const [
+    getProcessInstances,
+    processInstances
+  ] = useGetProcessInstancesLazyQuery({ fetchPolicy: 'network-only' });
 
   const onFilterClick = async (arr = checkedArray) => {
     setIsLoading(true);
     setIsError(false);
     setIsStatusSelected(true);
-    await client
-      .query({
-        query: GET_INSTANCES,
-        variables: {
-          state: arr
-        },
-        fetchPolicy: 'network-only'
-      })
-      .then(result => {
-        setIsLoading(result.loading);
-        setInitData(result.data);
-      });
+    getProcessInstances({ variables: { state: arr } });
   };
 
-  const BreadcrumbStyle = {
-    paddingBottom: '20px'
-  };
+  useEffect(() => {
+    setIsLoading(processInstances.loading);
+    setInitData(processInstances.data);
+    if (!processInstances.loading && processInstances.data) {
+      const instanceRows = createParentData(processInstances);
+      setRows(instanceRows);
+    }
+  }, [processInstances.data]);
 
   return (
     <React.Fragment>
@@ -100,24 +77,7 @@ const DataListContainer: React.FC<{}> = () => {
                   setFilters={setFilters}
                 />
               )}
-              {isStatusSelected ? (
-                <DataListComponent
-                  initData={initData}
-                  setInitData={setInitData}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                  setIsError={setIsError}
-                />
-              ) : (
-                <EmptyStateComponent
-                  iconType="warningTriangleIcon1"
-                  title="No status is selected"
-                  body="Try selecting at least one status to see results"
-                  filterClick={onFilterClick}
-                  setFilters={setFilters}
-                  setCheckedArray={setCheckedArray}
-                />
-              )}
+              <DataTable rows={rows} setRows={setRows} isLoading={isLoading} />
             </Card>
           </GridItem>
         </Grid>

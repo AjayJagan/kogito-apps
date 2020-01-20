@@ -14,6 +14,28 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Address = {
+  __typename?: 'Address';
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+};
+
+export type AddressArgument = {
+  city?: Maybe<StringArgument>;
+  country?: Maybe<StringArgument>;
+  street?: Maybe<StringArgument>;
+  zipCode?: Maybe<StringArgument>;
+};
+
+export type AddressOrderBy = {
+  city?: Maybe<OrderBy>;
+  country?: Maybe<OrderBy>;
+  street?: Maybe<OrderBy>;
+  zipCode?: Maybe<OrderBy>;
+};
+
 export type BooleanArgument = {
   isNull?: Maybe<Scalars['Boolean']>;
   equal?: Maybe<Scalars['Boolean']>;
@@ -32,6 +54,82 @@ export type DateArgument = {
 export type DateRange = {
   from: Scalars['DateTime'];
   to: Scalars['DateTime'];
+};
+
+export type Deals = {
+  __typename?: 'Deals';
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  review?: Maybe<Scalars['String']>;
+  traveller?: Maybe<Traveller>;
+  metadata?: Maybe<KogitoMetadata>;
+};
+
+export type DealsArgument = {
+  and?: Maybe<Array<DealsArgument>>;
+  or?: Maybe<Array<DealsArgument>>;
+  id?: Maybe<IdArgument>;
+  name?: Maybe<StringArgument>;
+  review?: Maybe<StringArgument>;
+  traveller?: Maybe<TravellerArgument>;
+  metadata?: Maybe<KogitoMetadataArgument>;
+};
+
+export type DealsOrderBy = {
+  name?: Maybe<OrderBy>;
+  review?: Maybe<OrderBy>;
+  traveller?: Maybe<TravellerOrderBy>;
+  metadata?: Maybe<KogitoMetadataOrderBy>;
+};
+
+export type Flight = {
+  __typename?: 'Flight';
+  arrival?: Maybe<Scalars['String']>;
+  departure?: Maybe<Scalars['String']>;
+  flightNumber?: Maybe<Scalars['String']>;
+  gate?: Maybe<Scalars['String']>;
+  seat?: Maybe<Scalars['String']>;
+};
+
+export type FlightArgument = {
+  arrival?: Maybe<StringArgument>;
+  departure?: Maybe<StringArgument>;
+  flightNumber?: Maybe<StringArgument>;
+  gate?: Maybe<StringArgument>;
+  seat?: Maybe<StringArgument>;
+};
+
+export type FlightOrderBy = {
+  arrival?: Maybe<OrderBy>;
+  departure?: Maybe<OrderBy>;
+  flightNumber?: Maybe<OrderBy>;
+  gate?: Maybe<OrderBy>;
+  seat?: Maybe<OrderBy>;
+};
+
+export type Hotel = {
+  __typename?: 'Hotel';
+  address?: Maybe<Address>;
+  bookingNumber?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  room?: Maybe<Scalars['String']>;
+};
+
+export type HotelArgument = {
+  address?: Maybe<AddressArgument>;
+  bookingNumber?: Maybe<StringArgument>;
+  name?: Maybe<StringArgument>;
+  phone?: Maybe<StringArgument>;
+  room?: Maybe<StringArgument>;
+};
+
+export type HotelOrderBy = {
+  address?: Maybe<AddressOrderBy>;
+  bookingNumber?: Maybe<OrderBy>;
+  name?: Maybe<OrderBy>;
+  phone?: Maybe<OrderBy>;
+  room?: Maybe<OrderBy>;
 };
 
 export type IdArgument = {
@@ -280,6 +378,9 @@ export type Query = {
   ProcessInstances?: Maybe<Array<Maybe<ProcessInstance>>>;
   UserTaskInstances?: Maybe<Array<Maybe<UserTaskInstance>>>;
   Jobs?: Maybe<Array<Maybe<Job>>>;
+  VisaApplications?: Maybe<Array<Maybe<VisaApplications>>>;
+  Deals?: Maybe<Array<Maybe<Deals>>>;
+  Travels?: Maybe<Array<Maybe<Travels>>>;
 };
 
 export type QueryProcessInstancesArgs = {
@@ -297,6 +398,24 @@ export type QueryUserTaskInstancesArgs = {
 export type QueryJobsArgs = {
   where?: Maybe<JobArgument>;
   orderBy?: Maybe<JobOrderBy>;
+  pagination?: Maybe<Pagination>;
+};
+
+export type QueryVisaApplicationsArgs = {
+  where?: Maybe<VisaApplicationsArgument>;
+  orderBy?: Maybe<VisaApplicationsOrderBy>;
+  pagination?: Maybe<Pagination>;
+};
+
+export type QueryDealsArgs = {
+  where?: Maybe<DealsArgument>;
+  orderBy?: Maybe<DealsOrderBy>;
+  pagination?: Maybe<Pagination>;
+};
+
+export type QueryTravelsArgs = {
+  where?: Maybe<TravelsArgument>;
+  orderBy?: Maybe<TravelsOrderBy>;
   pagination?: Maybe<Pagination>;
 };
 
@@ -322,6 +441,94 @@ export type Subscription = {
   UserTaskInstanceUpdated: UserTaskInstance;
   JobAdded: Job;
   JobUpdated: Job;
+  VisaApplicationsAdded: VisaApplications;
+  VisaApplicationsUpdated: VisaApplications;
+  DealsAdded: Deals;
+  DealsUpdated: Deals;
+  TravelsAdded: Travels;
+  TravelsUpdated: Travels;
+};
+
+export type Traveller = {
+  __typename?: 'Traveller';
+  address?: Maybe<Address>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  nationality?: Maybe<Scalars['String']>;
+};
+
+export type TravellerArgument = {
+  address?: Maybe<AddressArgument>;
+  email?: Maybe<StringArgument>;
+  firstName?: Maybe<StringArgument>;
+  lastName?: Maybe<StringArgument>;
+  nationality?: Maybe<StringArgument>;
+};
+
+export type TravellerOrderBy = {
+  address?: Maybe<AddressOrderBy>;
+  email?: Maybe<OrderBy>;
+  firstName?: Maybe<OrderBy>;
+  lastName?: Maybe<OrderBy>;
+  nationality?: Maybe<OrderBy>;
+};
+
+export type Travels = {
+  __typename?: 'Travels';
+  flight?: Maybe<Flight>;
+  hotel?: Maybe<Hotel>;
+  id?: Maybe<Scalars['String']>;
+  traveller?: Maybe<Traveller>;
+  trip?: Maybe<Trip>;
+  visaApplication?: Maybe<VisaApplication>;
+  metadata?: Maybe<KogitoMetadata>;
+};
+
+export type TravelsArgument = {
+  and?: Maybe<Array<TravelsArgument>>;
+  or?: Maybe<Array<TravelsArgument>>;
+  flight?: Maybe<FlightArgument>;
+  hotel?: Maybe<HotelArgument>;
+  id?: Maybe<IdArgument>;
+  traveller?: Maybe<TravellerArgument>;
+  trip?: Maybe<TripArgument>;
+  visaApplication?: Maybe<VisaApplicationArgument>;
+  metadata?: Maybe<KogitoMetadataArgument>;
+};
+
+export type TravelsOrderBy = {
+  flight?: Maybe<FlightOrderBy>;
+  hotel?: Maybe<HotelOrderBy>;
+  traveller?: Maybe<TravellerOrderBy>;
+  trip?: Maybe<TripOrderBy>;
+  visaApplication?: Maybe<VisaApplicationOrderBy>;
+  metadata?: Maybe<KogitoMetadataOrderBy>;
+};
+
+export type Trip = {
+  __typename?: 'Trip';
+  begin?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  end?: Maybe<Scalars['String']>;
+  visaRequired?: Maybe<Scalars['Boolean']>;
+};
+
+export type TripArgument = {
+  begin?: Maybe<StringArgument>;
+  city?: Maybe<StringArgument>;
+  country?: Maybe<StringArgument>;
+  end?: Maybe<StringArgument>;
+  visaRequired?: Maybe<BooleanArgument>;
+};
+
+export type TripOrderBy = {
+  begin?: Maybe<OrderBy>;
+  city?: Maybe<OrderBy>;
+  country?: Maybe<OrderBy>;
+  end?: Maybe<OrderBy>;
+  visaRequired?: Maybe<OrderBy>;
 };
 
 export type UserTaskInstance = {
@@ -418,6 +625,60 @@ export type UserTaskInstanceOrderBy = {
   started?: Maybe<OrderBy>;
   referenceName?: Maybe<OrderBy>;
   lastUpdate?: Maybe<OrderBy>;
+};
+
+export type VisaApplication = {
+  __typename?: 'VisaApplication';
+  approved?: Maybe<Scalars['Boolean']>;
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['Int']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  nationality?: Maybe<Scalars['String']>;
+  passportNumber?: Maybe<Scalars['String']>;
+};
+
+export type VisaApplicationArgument = {
+  approved?: Maybe<BooleanArgument>;
+  city?: Maybe<StringArgument>;
+  country?: Maybe<StringArgument>;
+  duration?: Maybe<NumericArgument>;
+  firstName?: Maybe<StringArgument>;
+  lastName?: Maybe<StringArgument>;
+  nationality?: Maybe<StringArgument>;
+  passportNumber?: Maybe<StringArgument>;
+};
+
+export type VisaApplicationOrderBy = {
+  approved?: Maybe<OrderBy>;
+  city?: Maybe<OrderBy>;
+  country?: Maybe<OrderBy>;
+  duration?: Maybe<OrderBy>;
+  firstName?: Maybe<OrderBy>;
+  lastName?: Maybe<OrderBy>;
+  nationality?: Maybe<OrderBy>;
+  passportNumber?: Maybe<OrderBy>;
+};
+
+export type VisaApplications = {
+  __typename?: 'VisaApplications';
+  id?: Maybe<Scalars['String']>;
+  visaApplication?: Maybe<VisaApplication>;
+  metadata?: Maybe<KogitoMetadata>;
+};
+
+export type VisaApplicationsArgument = {
+  and?: Maybe<Array<VisaApplicationsArgument>>;
+  or?: Maybe<Array<VisaApplicationsArgument>>;
+  id?: Maybe<IdArgument>;
+  visaApplication?: Maybe<VisaApplicationArgument>;
+  metadata?: Maybe<KogitoMetadataArgument>;
+};
+
+export type VisaApplicationsOrderBy = {
+  visaApplication?: Maybe<VisaApplicationOrderBy>;
+  metadata?: Maybe<KogitoMetadataOrderBy>;
 };
 
 export type GetProcessInstancesQueryVariables = {
@@ -605,9 +866,7 @@ export type GetProcessInstancesQueryResult = ApolloReactCommon.QueryResult<
 >;
 export const GetChildInstancesDocument = gql`
   query getChildInstances($instanceId: String) {
-    ProcessInstances(
-      where: { parentProcessInstanceId: { equal: $instanceId } }
-    ) {
+    ProcessInstances(where: { rootProcessInstanceId: { equal: $instanceId } }) {
       id
       processId
       processName

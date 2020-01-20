@@ -28,9 +28,7 @@ const GET_PROCESS_INSTANCES = gql`
 
 const GET_CHILD_INSTANCES = gql`
   query getChildInstances($instanceId: String) {
-    ProcessInstances(
-      where: { parentProcessInstanceId: { equal: $instanceId } }
-    ) {
+    ProcessInstances(where: { rootProcessInstanceId: { equal: $instanceId } }) {
       id
       processId
       processName

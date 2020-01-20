@@ -24,6 +24,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useApolloClient } from 'react-apollo';
 import SpinnerComponent from '../../Atoms/SpinnerComponent/SpinnerComponent';
+import { useGetChildInstancesLazyQuery } from '../../../graphql/types';
 
 /* tslint:disable:no-string-literal */
 
@@ -87,6 +88,9 @@ const DataListItemComponent: React.FC<IOwnProps> = ({
       }
     }
   `;
+  const [getChildInstances, childInstances] = useGetChildInstancesLazyQuery({
+    fetchPolicy: 'network-only'
+  });
   const handleViewError = useCallback(
     async (_processID, _instanceID, _endpoint) => {
       setOpenModal(true);
@@ -175,20 +179,19 @@ const DataListItemComponent: React.FC<IOwnProps> = ({
         : [...expanded, _id];
     setexpanded(newExpanded);
     if (!isLoaded) {
-      await client
-        .query({
-          query: GET_CHILD_INSTANCES,
-          variables: {
-            rootProcessInstanceId: processInstanceData.id
-          },
-          fetchPolicy: 'network-only'
-        })
-        .then(result => {
-          setChildList(result.data);
-          setisLoaded(true);
-        });
+      getChildInstances({
+        variables: {
+          instanceId: processInstanceData.id
+        }
+      });
     }
   };
+  useEffect(() => {
+    setisLoaded(true);
+    if (!childInstances.loading) {
+      setChildList(childInstances.data.ProcessInstances);
+    }
+  }, [childInstances.data]);
 
   const handleSkipButton = async () => {
     setOpenModal(!openModal);
