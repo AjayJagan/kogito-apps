@@ -21,8 +21,9 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import PageTitle from '../../Molecules/PageTitle/PageTitle';
 import ProcessListToolbar from '../../Molecules/ProcessListToolbar/ProcessListToolbar';
 import './ProcessListPage.css';
-import ProcessListTable from '../../Organisms/ProcessListTable/ProcessListTable';
+//import ProcessListTable from '../../Organisms/ProcessListTable/ProcessListTable';
 import { StaticContext } from 'react-router';
+import ComposableTableExpandable from '../../Organisms/ComposableTable/ComposableTable';
 
 type filterType = {
   status: GraphQL.ProcessInstanceState[];
@@ -244,20 +245,21 @@ const ProcessListPage: React.FC<OUIAProps &
                   </>
                 )}
                 {filters.status.length > 0 ? (
-                  <ProcessListTable
-                    initData={initData}
-                    setInitData={setInitData}
-                    setLimit={setLimit}
-                    isLoading={isLoading}
-                    setIsError={setIsError}
-                    pageSize={defaultPageSize}
-                    selectedInstances={selectedInstances}
-                    setSelectedInstances={setSelectedInstances}
-                    filters={filters}
-                    setIsAllChecked={setIsAllChecked}
-                    setSelectedNumber={setSelectedNumber}
-                    selectedNumber={selectedNumber}
-                  />
+                  // <ProcessListTable
+                  //   initData={initData}
+                  //   setInitData={setInitData}
+                  //   setLimit={setLimit}
+                  //   isLoading={isLoading}
+                  //   setIsError={setIsError}
+                  //   pageSize={defaultPageSize}
+                  //   selectedInstances={selectedInstances}
+                  //   setSelectedInstances={setSelectedInstances}
+                  //   filters={filters}
+                  //   setIsAllChecked={setIsAllChecked}
+                  //   setSelectedNumber={setSelectedNumber}
+                  //   selectedNumber={selectedNumber}
+                  // />
+                  <ComposableTableExpandable />
                 ) : (
                   <KogitoEmptyState
                     type={KogitoEmptyStateType.Reset}
