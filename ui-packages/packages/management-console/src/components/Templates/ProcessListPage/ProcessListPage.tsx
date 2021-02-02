@@ -8,8 +8,8 @@ import {
 } from '@patternfly/react-core';
 import {
   GraphQL,
-  KogitoEmptyState,
-  KogitoEmptyStateType,
+  // KogitoEmptyState,
+  // KogitoEmptyStateType,
   ouiaPageTypeAndObjectId,
   ServerErrors,
   LoadMore,
@@ -192,20 +192,21 @@ const ProcessListPage: React.FC<OUIAProps &
     }
   }, [data]);
 
-  const resetClick = () => {
-    setSearchWord('');
-    setStatusArray([GraphQL.ProcessInstanceState.Active]);
-    setFilters({
-      ...filters,
-      status: [GraphQL.ProcessInstanceState.Active],
-      businessKey: []
-    });
-    onFilterClick([GraphQL.ProcessInstanceState.Active]);
-  };
+  // const resetClick = () => {
+  //   setSearchWord('');
+  //   setStatusArray([GraphQL.ProcessInstanceState.Active]);
+  //   setFilters({
+  //     ...filters,
+  //     status: [GraphQL.ProcessInstanceState.Active],
+  //     businessKey: []
+  //   });
+  //   onFilterClick([GraphQL.ProcessInstanceState.Active]);
+  // };
 
   if (error) {
     return <ServerErrors error={error} variant="large" />;
   }
+
   return (
     <React.Fragment>
       <div {...componentOuiaProps(ouiaId, 'process-list-page', ouiaSafe)}>
@@ -244,30 +245,30 @@ const ProcessListPage: React.FC<OUIAProps &
                     />
                   </>
                 )}
-                {filters.status.length > 0 ? (
-                  // <ProcessListTable
-                  //   initData={initData}
-                  //   setInitData={setInitData}
-                  //   setLimit={setLimit}
-                  //   isLoading={isLoading}
-                  //   setIsError={setIsError}
-                  //   pageSize={defaultPageSize}
-                  //   selectedInstances={selectedInstances}
-                  //   setSelectedInstances={setSelectedInstances}
-                  //   filters={filters}
-                  //   setIsAllChecked={setIsAllChecked}
-                  //   setSelectedNumber={setSelectedNumber}
-                  //   selectedNumber={selectedNumber}
-                  // />
-                  <ComposableTableExpandable />
-                ) : (
+                {/* {filters.status.length > 0 ? (
+                  <ProcessListTable
+                    initData={initData}
+                    setInitData={setInitData}
+                    setLimit={setLimit}
+                    isLoading={isLoading}
+                    setIsError={setIsError}
+                    pageSize={defaultPageSize}
+                    selectedInstances={selectedInstances}
+                    setSelectedInstances={setSelectedInstances}
+                    filters={filters}
+                    setIsAllChecked={setIsAllChecked}
+                    setSelectedNumber={setSelectedNumber}
+                    selectedNumber={selectedNumber}
+                  /> */}
+                <ComposableTableExpandable />
+                {/* ) : (
                   <KogitoEmptyState
                     type={KogitoEmptyStateType.Reset}
                     title="No status is selected"
                     body="Try selecting at least one status to see results"
                     onClick={resetClick}
                   />
-                )}
+                )} */}
                 {(!loading || isLoadingMore) &&
                   !isLoading &&
                   initData !== undefined &&
