@@ -40,7 +40,7 @@ const ComposableTableExpandable = () => {
     variables: {
       where: queryVariables,
       offset: 0,
-      limit: 200
+      limit: 185
     },
     fetchPolicy: 'network-only'
   });
